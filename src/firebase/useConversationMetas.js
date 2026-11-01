@@ -7,7 +7,9 @@ import { db, isFirebaseConfigured } from "./config";
  */
 export default function useConversationMetas(conversationIds = []) {
   const [metas, setMetas] = useState({});
-  const idsKey = Array.isArray(conversationIds) ? conversationIds.join(",") : "";
+  const idsKey = Array.isArray(conversationIds)
+    ? conversationIds.join(",")
+    : "";
 
   useEffect(() => {
     if (!isFirebaseConfigured || !db || !idsKey) return undefined;

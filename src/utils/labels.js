@@ -9,17 +9,40 @@ export const CRITERIA_LABELS = {
   interests: "Sở thích",
 };
 
-export const GENDER_LABELS = { male: "Nam", female: "Nữ", other: "Khác", private: "Không tiết lộ" };
-export const GUEST_LABELS = { never: "Không bao giờ", rarely: "Hiếm khi", sometimes: "Thỉnh thoảng", often: "Thường xuyên" };
-export const SHARED_LABELS = { minimal: "Tối thiểu", moderate: "Vừa phải", open: "Cởi mở" };
-export const PATTERN_LABELS = { student: "Sinh viên", office: "Giờ hành chính", freelance: "Tự do", shift: "Theo ca" };
+export const GENDER_LABELS = {
+  male: "Nam",
+  female: "Nữ",
+  other: "Khác",
+  private: "Không tiết lộ",
+};
+export const GUEST_LABELS = {
+  never: "Không bao giờ",
+  rarely: "Hiếm khi",
+  sometimes: "Thỉnh thoảng",
+  often: "Thường xuyên",
+};
+export const SHARED_LABELS = {
+  minimal: "Tối thiểu",
+  moderate: "Vừa phải",
+  open: "Cởi mở",
+};
+export const PATTERN_LABELS = {
+  student: "Sinh viên",
+  office: "Giờ hành chính",
+  freelance: "Tự do",
+  shift: "Theo ca",
+};
 
-export const toOptions = (labels) => Object.entries(labels).map(([value, label]) => ({ value, label }));
+export const toOptions = (labels) =>
+  Object.entries(labels).map(([value, label]) => ({ value, label }));
 
 export const formatVND = (n) =>
-  n === null || n === undefined ? "—" : new Intl.NumberFormat("vi-VN").format(n) + "đ";
+  n === null || n === undefined
+    ? "—"
+    : new Intl.NumberFormat("vi-VN").format(n) + "đ";
 
-export const formatBudget = (b) => (b ? `${formatVND(b.min)} - ${formatVND(b.max)}` : "Đã ẩn");
+export const formatBudget = (b) =>
+  b ? `${formatVND(b.min)} - ${formatVND(b.max)}` : "Đã ẩn";
 
 export const ROOM_TYPE_LABELS = {
   single: "Phòng đơn",
@@ -29,16 +52,40 @@ export const ROOM_TYPE_LABELS = {
   house: "Nhà nguyên căn",
 };
 
-export const LISTING_STATUS_LABELS = { available: "Còn trống", rented: "Đã cho thuê", stopped: "Tạm ngưng" };
-export const MODERATION_LABELS = { pending: "Chờ duyệt", approved: "Đã duyệt", rejected: "Bị từ chối" };
+export const LISTING_STATUS_LABELS = {
+  available: "Còn trống",
+  rented: "Đã cho thuê",
+  stopped: "Tạm ngưng",
+};
+export const MODERATION_LABELS = {
+  pending: "Chờ duyệt",
+  approved: "Đã duyệt",
+  rejected: "Bị từ chối",
+};
 
 export const AMENITIES = [
-  "Điều hòa", "Nóng lạnh", "Giường", "Tủ quần áo", "Tủ lạnh", "Máy giặt", "Máy giặt chung",
-  "Bếp", "Bếp riêng", "Wifi", "Chỗ để xe", "Thang máy", "Bảo vệ 24/7", "Ban công",
+  "Điều hòa",
+  "Nóng lạnh",
+  "Giường",
+  "Tủ quần áo",
+  "Tủ lạnh",
+  "Máy giặt",
+  "Máy giặt chung",
+  "Bếp",
+  "Bếp riêng",
+  "Wifi",
+  "Chỗ để xe",
+  "Thang máy",
+  "Bảo vệ 24/7",
+  "Ban công",
 ];
 
 export const PASS_TYPE_LABELS = { room: "Pass phòng", item: "Pass đồ" };
-export const PASS_STATUS_LABELS = { active: "Đang đăng", completed: "Đã hoàn tất", closed: "Đã đóng" };
+export const PASS_STATUS_LABELS = {
+  active: "Đang đăng",
+  completed: "Đã hoàn tất",
+  closed: "Đã đóng",
+};
 export const ITEM_CATEGORY_LABELS = {
   furniture: "Nội thất",
   appliance: "Đồ điện",
@@ -46,11 +93,25 @@ export const ITEM_CATEGORY_LABELS = {
   storage: "Đồ lưu trữ",
   other: "Khác",
 };
-export const CONDITION_LABELS = { new: "Mới", like_new: "Như mới", good: "Tốt", fair: "Khá", old: "Cũ" };
-export const DEAL_LABELS = { sell: "Bán", give_away: "Cho tặng", exchange: "Trao đổi" };
+export const CONDITION_LABELS = {
+  new: "Mới",
+  like_new: "Như mới",
+  good: "Tốt",
+  fair: "Khá",
+  old: "Cũ",
+};
+export const DEAL_LABELS = {
+  sell: "Bán",
+  give_away: "Cho tặng",
+  exchange: "Trao đổi",
+};
 
 export const passPriceText = (p) => {
-  if (p.type === "item" && (p.itemInfo?.dealType === "give_away" || p.price === 0)) return "Cho tặng";
+  if (
+    p.type === "item" &&
+    (p.itemInfo?.dealType === "give_away" || p.price === 0)
+  )
+    return "Cho tặng";
   if (p.price === null || p.price === undefined) return "Thỏa thuận";
   return formatVND(p.price) + (p.type === "room" ? "/tháng" : "");
 };
@@ -107,7 +168,6 @@ export const FAQ_CATEGORY_LABELS = {
   safety: "An toàn",
 };
 
-
 export const normalizeVietnamese = (str = "") =>
   String(str || "")
     .toLowerCase()
@@ -115,24 +175,54 @@ export const normalizeVietnamese = (str = "") =>
 
 // ---------- Nhãn theo ngôn ngữ (dùng ở màn hình hồ sơ người khác: profile/[id].tsx) ----------
 const EN_CRITERIA = {
-  budget: "Budget", location: "Area", schedule: "Schedule", cleanliness: "Cleanliness",
-  lifestyle: "Lifestyle", privacy: "Privacy", sharedSpace: "Shared space", interests: "Interests",
+  budget: "Budget",
+  location: "Area",
+  schedule: "Schedule",
+  cleanliness: "Cleanliness",
+  lifestyle: "Lifestyle",
+  privacy: "Privacy",
+  sharedSpace: "Shared space",
+  interests: "Interests",
 };
-const EN_GENDER = { male: "Male", female: "Female", other: "Other", private: "Prefer not to say" };
-const EN_GUEST = { never: "Never", rarely: "Rarely", sometimes: "Sometimes", often: "Often" };
+const EN_GENDER = {
+  male: "Male",
+  female: "Female",
+  other: "Other",
+  private: "Prefer not to say",
+};
+const EN_GUEST = {
+  never: "Never",
+  rarely: "Rarely",
+  sometimes: "Sometimes",
+  often: "Often",
+};
 const EN_SHARED = { minimal: "Minimal", moderate: "Moderate", open: "Open" };
-const EN_PATTERN = { student: "Student", office: "Office hours", freelance: "Freelance", shift: "Shift work" };
+const EN_PATTERN = {
+  student: "Student",
+  office: "Office hours",
+  freelance: "Freelance",
+  shift: "Shift work",
+};
 
 const localized = (vi, en, key, language) => {
   if (key === null || key === undefined || key === "") return "—";
   return (language === "en" ? en[key] : vi[key]) ?? vi[key] ?? String(key);
 };
 
-export const getLocalizedCriteriaLabel = (key, language) => localized(CRITERIA_LABELS, EN_CRITERIA, key, language);
-export const getLocalizedGenderLabel = (key, language) => localized(GENDER_LABELS, EN_GENDER, key, language);
-export const getLocalizedGuestLabel = (key, language) => localized(GUEST_LABELS, EN_GUEST, key, language);
-export const getLocalizedSharedLabel = (key, language) => localized(SHARED_LABELS, EN_SHARED, key, language);
-export const getLocalizedPatternLabel = (key, language) => localized(PATTERN_LABELS, EN_PATTERN, key, language);
+export const getLocalizedCriteriaLabel = (key, language) =>
+  localized(CRITERIA_LABELS, EN_CRITERIA, key, language);
+export const getLocalizedGenderLabel = (key, language) =>
+  localized(GENDER_LABELS, EN_GENDER, key, language);
+export const getLocalizedGuestLabel = (key, language) =>
+  localized(GUEST_LABELS, EN_GUEST, key, language);
+export const getLocalizedSharedLabel = (key, language) =>
+  localized(SHARED_LABELS, EN_SHARED, key, language);
+export const getLocalizedPatternLabel = (key, language) =>
+  localized(PATTERN_LABELS, EN_PATTERN, key, language);
 
 export const formatBudgetLocalized = (b, language) =>
-  b ? `${formatVND(b.min)} - ${formatVND(b.max)}` : language === "en" ? "Hidden" : "Đã ẩn";
+  b
+    ? `${formatVND(b.min)} - ${formatVND(b.max)}`
+    : language === "en"
+      ? "Hidden"
+      : "Đã ẩn";

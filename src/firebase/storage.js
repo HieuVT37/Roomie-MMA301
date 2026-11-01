@@ -45,7 +45,10 @@ export async function uploadImageToFirebase(uri, folder = "uploads") {
       const downloadUrl = await getDownloadURL(storageRef);
       return downloadUrl;
     } catch (err) {
-      console.log("Firebase Storage upload fallback to server:", err?.message || err);
+      console.log(
+        "Firebase Storage upload fallback to server:",
+        err?.message || err,
+      );
     }
   }
 
@@ -57,7 +60,9 @@ export async function uploadImageToFirebase(uri, folder = "uploads") {
       type: "image/jpeg",
     },
   ]);
-  const urls = Array.isArray(res) ? res : res?.urls || res?.images || res?.data || [];
+  const urls = Array.isArray(res)
+    ? res
+    : res?.urls || res?.images || res?.data || [];
   if (urls.length > 0) {
     return imageUrl(urls[0]);
   }
@@ -67,9 +72,14 @@ export async function uploadImageToFirebase(uri, folder = "uploads") {
 /**
  * Tải nhiều ảnh (tối đa 4 ảnh trong chat) lên Firebase Storage song song
  */
-export async function uploadMultipleImagesToFirebase(assets = [], folder = "chat") {
+export async function uploadMultipleImagesToFirebase(
+  assets = [],
+  folder = "chat",
+) {
   const limited = assets.slice(0, 4);
   return Promise.all(
-    limited.map((a) => uploadImageToFirebase(typeof a === "string" ? a : a.uri, folder)),
+    limited.map((a) =>
+      uploadImageToFirebase(typeof a === "string" ? a : a.uri, folder),
+    ),
   );
 }

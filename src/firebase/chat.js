@@ -14,12 +14,21 @@ import { db, isFirebaseConfigured } from "./config";
 /**
  * Lắng nghe tin nhắn realtime từ Firestore: conversations/{conversationId}/messages
  */
-export function subscribeConversationMessages(conversationId, onMessagesChange, onError) {
+export function subscribeConversationMessages(
+  conversationId,
+  onMessagesChange,
+  onError,
+) {
   if (!isFirebaseConfigured || !db || !conversationId) {
     return () => {};
   }
 
-  const messagesRef = collection(db, "conversations", String(conversationId), "messages");
+  const messagesRef = collection(
+    db,
+    "conversations",
+    String(conversationId),
+    "messages",
+  );
   const q = query(messagesRef, orderBy("createdAt", "asc"));
 
   const unsubscribe = onSnapshot(
@@ -58,7 +67,14 @@ export function subscribeConversationMessages(conversationId, onMessagesChange, 
  */
 export async function sendFirestoreMessage(
   conversationId,
-  { senderId, senderName, text = "", images = [], participants = [], messageId = null },
+  {
+    senderId,
+    senderName,
+    text = "",
+    images = [],
+    participants = [],
+    messageId = null,
+  },
 ) {
   if (!isFirebaseConfigured || !db || !conversationId) {
     return null;

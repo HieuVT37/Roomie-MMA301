@@ -2,7 +2,14 @@ import Constants from "expo-constants";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 import { useRouter } from "expo-router";
-import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { AppState, Platform } from "react-native";
 import { listConversationsApi } from "../api/conversations";
 import { notificationsApi, registerPushTokenApi } from "../api/notifications";
@@ -64,7 +71,8 @@ export function NotificationProvider({ children }) {
 
         if (!Device.isDevice) return;
 
-        const { status: existingStatus } = await Notifications.getPermissionsAsync();
+        const { status: existingStatus } =
+          await Notifications.getPermissionsAsync();
         let finalStatus = existingStatus;
         if (existingStatus !== "granted") {
           const { status } = await Notifications.requestPermissionsAsync();
@@ -73,7 +81,8 @@ export function NotificationProvider({ children }) {
         if (finalStatus !== "granted") return;
 
         const projectId =
-          Constants?.expoConfig?.extra?.eas?.projectId ?? Constants?.easConfig?.projectId;
+          Constants?.expoConfig?.extra?.eas?.projectId ??
+          Constants?.easConfig?.projectId;
 
         const tokenResponse = await Notifications.getExpoPushTokenAsync(
           projectId ? { projectId } : undefined,
@@ -93,25 +102,27 @@ export function NotificationProvider({ children }) {
     registerForPushNotificationsAsync();
 
     // Lắng nghe khi có Push Notification từ FCM/Expo gửi về máy
-    notificationListener.current = Notifications.addNotificationReceivedListener(() => {
-      refresh();
-    });
+    notificationListener.current =
+      Notifications.addNotificationReceivedListener(() => {
+        refresh();
+      });
 
     // Lắng nghe khi người dùng nhấn vào thông báo trên thanh trạng thái -> Mở thẳng màn hình Chat
-    responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
-      const data = response?.notification?.request?.content?.data || {};
-      if (data.conversationId) {
-        router.push({
-          pathname: "/chat/[id]",
-          params: {
-            id: String(data.conversationId),
-            name: data.senderName || "Tin nhắn",
-          },
-        });
-      } else {
-        router.push("/(tabs)/messages");
-      }
-    });
+    responseListener.current =
+      Notifications.addNotificationResponseReceivedListener((response) => {
+        const data = response?.notification?.request?.content?.data || {};
+        if (data.conversationId) {
+          router.push({
+            pathname: "/chat/[id]",
+            params: {
+              id: String(data.conversationId),
+              name: data.senderName || "Tin nhắn",
+            },
+          });
+        } else {
+          router.push("/(tabs)/messages");
+        }
+      });
 
     return () => {
       active = false;
@@ -140,9 +151,11 @@ export function NotificationProvider({ children }) {
       ) {
         try {
           const convData = await listConversationsApi();
-          const latestUnread = convData?.items?.find((c) => c.unread > 0) || convData?.items?.[0];
+          const latestUnread =
+            convData?.items?.find((c) => c.unread > 0) || convData?.items?.[0];
           const senderName = latestUnread?.other?.displayName || "Roomie";
-          const bodyText = latestUnread?.lastMessage?.text || "Bạn có tin nhắn mới!";
+          const bodyText =
+            latestUnread?.lastMessage?.text || "Bạn có tin nhắn mới!";
           const convId = latestUnread?.id;
 
           await Notifications.scheduleNotificationAsync({
@@ -161,7 +174,9 @@ export function NotificationProvider({ children }) {
       setCounts({ messages: newMessages, connections: newConnections });
 
       if (Platform.OS !== "web") {
-        await Notifications.setBadgeCountAsync(newMessages + newConnections).catch(() => {});
+        await Notifications.setBadgeCountAsync(
+          newMessages + newConnections,
+        ).catch(() => {});
       }
     } catch {}
   }, [enabled]);
