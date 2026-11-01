@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  View,
 } from "react-native";
 import { useAuth } from "../auth/AuthContext";
 import { KeyboardScreen, useBottomPad } from "../components/ui";
@@ -20,6 +21,7 @@ const themeColors = {
   muted: "#94a3b8", // Chữ phụ xám
   placeholder: "#64748b", // Chữ gợi ý trong input
   primary: "#6366f1", // Tím nhấn
+  link: "#818cf8", // Tím nhạt cho liên kết
   danger: "#ef4444", // Đỏ báo lỗi
 };
 
@@ -93,9 +95,13 @@ export default function LoginScreen() {
             <Text style={s.buttonText}>Đăng nhập</Text>
           )}
         </Pressable>
-        <Text style={s.hint}>
-          Chưa có tài khoản? Đăng ký trên trang web Roomie.
-        </Text>
+
+        <View style={s.registerRow}>
+          <Text style={s.hint}>Chưa có tài khoản? </Text>
+          <Pressable hitSlop={8} onPress={() => router.push("/register")}>
+            <Text style={s.link}>Đăng ký</Text>
+          </Pressable>
+        </View>
       </ScrollView>
     </KeyboardScreen>
   );
@@ -133,10 +139,12 @@ const s = StyleSheet.create({
     alignItems: "center",
   },
   buttonText: { color: "#fff", fontWeight: "700", fontSize: 16 },
-  hint: {
-    color: themeColors.muted,
-    textAlign: "center",
+  registerRow: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 8,
-    fontSize: 14,
   },
+  hint: { color: themeColors.muted, fontSize: 14 },
+  link: { color: themeColors.link, fontSize: 14, fontWeight: "700" },
 });
